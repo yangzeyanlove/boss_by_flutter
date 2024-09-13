@@ -1,16 +1,21 @@
 import 'package:dio/dio.dart';
 import '../config.dart';
 
-class Http {
+class HttpRequest {
+  static final HttpRequest _instance = HttpRequest._internal();
+
+  factory HttpRequest() {
+    return _instance;
+  }
+
+  HttpRequest._internal() {
+    _initInterceptors();
+  }
+
   final Dio _dio = Dio(BaseOptions(
     baseUrl: Config.baseUrl,
     headers: Config.defaultHeaders,
   ));
-
-  // 初始化拦截器
-  Http() {
-    _initInterceptors();
-  }
 
   void _initInterceptors() {
     _dio.interceptors.add(InterceptorsWrapper(
@@ -41,7 +46,8 @@ class Http {
           await _dio.get(url, options: Options(), queryParameters: params);
       return response;
     } on DioException catch (e) {
-      // print('整个DioException对象: $e');
+      // ignore: avoid_print
+      print('整个DioException对象: $e');
       rethrow;
     }
   }
@@ -52,6 +58,8 @@ class Http {
       final response = await _dio.post(url, data: data);
       return response;
     } on DioException catch (e) {
+      // ignore: avoid_print
+      print('整个DioException对象: $e');
       rethrow;
     }
   }
