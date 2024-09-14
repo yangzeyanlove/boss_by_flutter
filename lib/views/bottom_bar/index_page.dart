@@ -26,19 +26,38 @@ class JobList extends StatefulWidget {
 class _JobListState extends State<JobList> {
   final _http = HttpRequest();
   List<dynamic> _list = [];
+  final ScrollController _scrollController = ScrollController();
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
     _fetchData();
+    // 监听滚动
+    _scrollController.addListener(() {
+      if (_scrollController.position.maxScrollExtent <=
+              _scrollController.offset &&
+          !_isLoading) {
+        _fetchData();
+      }
+    });
   }
 
   Future<void> _fetchData() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    // 模拟延迟2s
+    await Future.delayed(const Duration(seconds: 2));
+
     try {
       Map<String, dynamic> data = await _http.get(
           'https://result.eolink.com/1PU8uLH9435a64bcd63e35fcb4dd6948bff5e7ebb444977?uri=/job/new-list');
       setState(() {
-        _list = data['zpData']['jobList'];
+        // _list = data['zpData']['jobList'];
+        _list = [..._list, ...data['zpData']['jobList']];
+        _isLoading = false;
       });
     } catch (error) {
       rethrow;
@@ -50,21 +69,50 @@ class _JobListState extends State<JobList> {
     return ListView.builder(
       padding: const EdgeInsets.all(10),
       itemCount: _list.length,
+      controller: _scrollController,
       itemBuilder: (context, index) {
-        return JobCard(
-          title: _list[index]['jobName'],
-          salary: _list[index]['salaryDesc'],
-          brandName: _list[index]['brandName'],
-          brandStageName: _list[index]['brandStageName'],
-          brandScaleName: _list[index]['brandScaleName'],
-          jobLabels: _list[index]['jobLabels'],
-          bossAvatar: _list[index]['bossAvatar'],
-          bossName: _list[index]['bossName'],
-          bossTitle: _list[index]['bossTitle'],
-          areaDistrict: _list[index]['areaDistrict'],
-          businessDistrict: _list[index]['businessDistrict'],
-        );
+        return index == _list.length - 1
+            ? Column(
+                children: [
+                  JobCard(
+                    title: _list[index]['jobName'],
+                    salary: _list[index]['salaryDesc'],
+                    brandName: _list[index]['brandName'],
+                    brandStageName: _list[index]['brandStageName'],
+                    brandScaleName: _list[index]['brandScaleName'],
+                    jobLabels: _list[index]['jobLabels'],
+                    bossAvatar: _list[index]['bossAvatar'],
+                    bossName: _list[index]['bossName'],
+                    bossTitle: _list[index]['bossTitle'],
+                    areaDistrict: _list[index]['areaDistrict'],
+                    businessDistrict: _list[index]['businessDistrict'],
+                  ),
+                  const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                ],
+              )
+            : JobCard(
+                title: _list[index]['jobName'],
+                salary: _list[index]['salaryDesc'],
+                brandName: _list[index]['brandName'],
+                brandStageName: _list[index]['brandStageName'],
+                brandScaleName: _list[index]['brandScaleName'],
+                jobLabels: _list[index]['jobLabels'],
+                bossAvatar: _list[index]['bossAvatar'],
+                bossName: _list[index]['bossName'],
+                bossTitle: _list[index]['bossTitle'],
+                areaDistrict: _list[index]['areaDistrict'],
+                businessDistrict: _list[index]['businessDistrict'],
+              );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    // 清除监听器以避免内存泄漏
+    _scrollController.removeListener(() {});
+    super.dispose();
   }
 }
