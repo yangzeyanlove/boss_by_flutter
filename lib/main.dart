@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'views/home_page.dart';
+import 'config.dart';
 
 void main() {
   // 启动应用程序
@@ -17,9 +18,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo', // 应用程序标题
       theme: ThemeData(
         useMaterial3: true, // 使用 Material 3 样式
-        // colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color(0xff00bebd)), // 设置主题颜色方案
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: Config.primaryColor), // 设置主题颜色方案
       ),
       home: const HomePage(), // 设置首页为 BottomNavigation 小部件
     );

@@ -3,6 +3,7 @@ import 'bottom_bar/index_page.dart';
 import 'bottom_bar/have_page.dart';
 import 'bottom_bar/message_page.dart';
 import 'bottom_bar/my_page.dart';
+import '../config.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -46,7 +47,7 @@ class _HomePageState extends State<HomePage> {
           });
         },
         items: _getBarItem(),
-        selectedItemColor: const Color(0xFF00bebd), // 选中时字体颜色
+        selectedItemColor: Config.primaryColor, // 选中时字体颜色
         unselectedItemColor: Colors.grey, // 未选中时字体颜色
         backgroundColor: Colors.white, // 默认背景颜色
         type: BottomNavigationBarType.fixed, // 底部有4个或以上的菜单，就需要配置

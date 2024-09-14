@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../config.dart';
 
 /// 职位信息展示，卡片样式
 class JobCard extends StatelessWidget {
@@ -43,7 +44,7 @@ class JobCard extends StatelessWidget {
           salary,
           style: const TextStyle(
               fontSize: 18,
-              color: Color(0xff37c2bc),
+              color: Config.primaryColor,
               fontWeight: FontWeight.w600),
         ),
       ],
@@ -62,7 +63,7 @@ class JobCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(2.0), // 圆角
           ),
           child: Text(jobLabels[i],
-              style: const TextStyle(color: Color(0xff666666)))));
+              style: const TextStyle(color: Config.lightColor))));
       labelList.add(const SizedBox(width: 8.0));
     }
 
@@ -92,14 +93,14 @@ class JobCard extends StatelessWidget {
                 const Text(
                   '今天回复10+',
                   textAlign: TextAlign.left,
-                  style: TextStyle(color: Color(0xff666666)),
+                  style: TextStyle(color: Config.lightColor),
                 )
               ],
             ),
           ],
         ),
         Text('$areaDistrict $businessDistrict',
-            style: const TextStyle(color: Color(0xff666666)))
+            style: const TextStyle(color: Config.lightColor))
       ],
     );
   }
@@ -120,7 +121,8 @@ class JobCard extends StatelessWidget {
             children: [
               _getFirstRowData(),
               const SizedBox(height: 10),
-              Text('$brandName  $brandStageName  $brandScaleName'),
+              Text('$brandName  $brandStageName  $brandScaleName',
+                  style: const TextStyle(fontSize: 16)),
               const SizedBox(height: 10),
               _getLabel(),
               const SizedBox(height: 10),
