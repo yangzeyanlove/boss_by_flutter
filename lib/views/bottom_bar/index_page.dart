@@ -43,7 +43,7 @@ class _JobListState extends State<JobList> {
     });
   }
 
-  Future<void> _fetchData() async {
+  Future<void> _fetchData({bool isFresh = false}) async {
     setState(() {
       _isLoading = true;
     });
@@ -55,8 +55,9 @@ class _JobListState extends State<JobList> {
       Map<String, dynamic> data = await _http.get(
           'https://result.eolink.com/1PU8uLH9435a64bcd63e35fcb4dd6948bff5e7ebb444977?uri=/job/new-list');
       setState(() {
-        // _list = data['zpData']['jobList'];
-        _list = [..._list, ...data['zpData']['jobList']];
+        _list = isFresh
+            ? data['zpData']['jobList']
+            : [..._list, ...data['zpData']['jobList']];
         _isLoading = false;
       });
     } catch (error) {
@@ -64,17 +65,41 @@ class _JobListState extends State<JobList> {
     }
   }
 
+  Future<void> _onRefresh() async {
+    await _fetchData(isFresh: true);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: const EdgeInsets.all(10),
-      itemCount: _list.length,
-      controller: _scrollController,
-      itemBuilder: (context, index) {
-        return index == _list.length - 1
-            ? Column(
-                children: [
-                  JobCard(
+    return RefreshIndicator(
+        onRefresh: _onRefresh,
+        child: ListView.builder(
+          padding: const EdgeInsets.all(10),
+          itemCount: _list.length,
+          controller: _scrollController,
+          itemBuilder: (context, index) {
+            return index == _list.length - 1
+                ? Column(
+                    children: [
+                      JobCard(
+                        title: _list[index]['jobName'],
+                        salary: _list[index]['salaryDesc'],
+                        brandName: _list[index]['brandName'],
+                        brandStageName: _list[index]['brandStageName'],
+                        brandScaleName: _list[index]['brandScaleName'],
+                        jobLabels: _list[index]['jobLabels'],
+                        bossAvatar: _list[index]['bossAvatar'],
+                        bossName: _list[index]['bossName'],
+                        bossTitle: _list[index]['bossTitle'],
+                        areaDistrict: _list[index]['areaDistrict'],
+                        businessDistrict: _list[index]['businessDistrict'],
+                      ),
+                      const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    ],
+                  )
+                : JobCard(
                     title: _list[index]['jobName'],
                     salary: _list[index]['salaryDesc'],
                     brandName: _list[index]['brandName'],
@@ -86,27 +111,9 @@ class _JobListState extends State<JobList> {
                     bossTitle: _list[index]['bossTitle'],
                     areaDistrict: _list[index]['areaDistrict'],
                     businessDistrict: _list[index]['businessDistrict'],
-                  ),
-                  const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                ],
-              )
-            : JobCard(
-                title: _list[index]['jobName'],
-                salary: _list[index]['salaryDesc'],
-                brandName: _list[index]['brandName'],
-                brandStageName: _list[index]['brandStageName'],
-                brandScaleName: _list[index]['brandScaleName'],
-                jobLabels: _list[index]['jobLabels'],
-                bossAvatar: _list[index]['bossAvatar'],
-                bossName: _list[index]['bossName'],
-                bossTitle: _list[index]['bossTitle'],
-                areaDistrict: _list[index]['areaDistrict'],
-                businessDistrict: _list[index]['businessDistrict'],
-              );
-      },
-    );
+                  );
+          },
+        ));
   }
 
   @override
