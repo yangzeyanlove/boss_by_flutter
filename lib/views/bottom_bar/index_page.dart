@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 import '../../common/http_request.dart';
-import 'dart:convert';
 import './job_card.dart';
 
 class IndexPage extends StatelessWidget {
@@ -37,16 +35,11 @@ class _JobListState extends State<JobList> {
 
   Future<void> _fetchData() async {
     try {
-      Response response = await _http.get(
+      Map<String, dynamic> data = await _http.get(
           'https://result.eolink.com/1PU8uLH9435a64bcd63e35fcb4dd6948bff5e7ebb444977?uri=/job/new-list');
-      if (response.statusCode == 200) {
-        Map<String, dynamic> jsonMap = json.decode(response.data);
-        setState(() {
-          _list = jsonMap['zpData']['jobList'];
-        });
-      } else {
-        throw Exception('Failed to load data');
-      }
+      setState(() {
+        _list = data['zpData']['jobList'];
+      });
     } catch (error) {
       rethrow;
     }

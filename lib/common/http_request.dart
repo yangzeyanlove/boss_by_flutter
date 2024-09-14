@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import '../config.dart';
+import 'dart:convert';
 
 class HttpRequest {
   static final HttpRequest _instance = HttpRequest._internal();
@@ -40,11 +41,18 @@ class HttpRequest {
   }
 
   // GET请求
-  Future<Response> get(String url, {Map<String, dynamic>? params}) async {
+  Future<Map<String, dynamic>> get(String url,
+      {Map<String, dynamic>? params}) async {
     try {
       final response =
           await _dio.get(url, options: Options(), queryParameters: params);
-      return response;
+      if (response.statusCode == 200) {
+        return json.decode(response.data);
+      }
+      return {
+        'code': response.statusCode,
+        'message': response.statusMessage,
+      };
     } on DioException catch (e) {
       // ignore: avoid_print
       print('整个DioException对象: $e');
@@ -53,10 +61,16 @@ class HttpRequest {
   }
 
   // POST请求
-  Future<Response> post(String url, {dynamic data}) async {
+  Future<Map<String, dynamic>> post(String url, {dynamic data}) async {
     try {
       final response = await _dio.post(url, data: data);
-      return response;
+      if (response.statusCode == 200) {
+        return json.decode(response.data);
+      }
+      return {
+        'code': response.statusCode,
+        'message': response.statusMessage,
+      };
     } on DioException catch (e) {
       // ignore: avoid_print
       print('整个DioException对象: $e');
