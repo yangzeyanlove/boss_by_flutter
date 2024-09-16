@@ -41,6 +41,7 @@ class IndexPage extends StatelessWidget {
     List<String> labels = ['深圳', '筛选'];
 
     for (var i = 0; i < labels.length; i++) {
+      list.add(const SizedBox(width: 10));
       list.add(Stack(
         children: [
           InkWell(
@@ -53,7 +54,6 @@ class IndexPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4.0),
               ),
               padding: const EdgeInsets.fromLTRB(10, 6, 18, 6),
-              margin: const EdgeInsets.only(left: 10),
               child: Text(labels[i], style: const TextStyle(fontSize: 16)),
             ),
           ),
@@ -204,19 +204,7 @@ class _JobListState extends State<JobList> {
           itemCount: _list.length,
           controller: _indexPageScrollController,
           itemBuilder: (context, index) {
-            Widget item = JobCard(
-              title: _list[index]['jobName'],
-              salary: _list[index]['salaryDesc'],
-              brandName: _list[index]['brandName'],
-              brandStageName: _list[index]['brandStageName'],
-              brandScaleName: _list[index]['brandScaleName'],
-              jobLabels: _list[index]['jobLabels'],
-              bossAvatar: _list[index]['bossAvatar'],
-              bossName: _list[index]['bossName'],
-              bossTitle: _list[index]['bossTitle'],
-              areaDistrict: _list[index]['areaDistrict'],
-              businessDistrict: _list[index]['businessDistrict'],
-            );
+            Widget item = JobCard(params: _list[index]);
             return index == _list.length - 1
                 ? Column(
                     children: [

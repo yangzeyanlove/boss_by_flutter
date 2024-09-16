@@ -1,33 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../config.dart';
+import '../job_detail.dart';
 
 /// 职位信息展示，卡片样式
 class JobCard extends StatelessWidget {
-  final String title; // 职位名称
-  final String salary; // 薪资
-  final String brandName; // 企业名称
-  final String brandStageName; // 目前状态，已上市，A/B/C/D轮，未融资。。。。
-  final String brandScaleName; // 人数规模
-  final List<dynamic> jobLabels; // 岗位标签
-  final String bossAvatar; // boss头像
-  final String bossName; // boss名称
-  final String bossTitle;
-  final String areaDistrict;
-  final String businessDistrict;
+  final Map<String, dynamic> params;
 
-  const JobCard(
-      {super.key,
-      this.title = '软件开发工程师软件开发工程师软件开发',
-      this.salary = '15K-20K',
-      this.brandName = '华为',
-      this.brandStageName = '已上市',
-      this.brandScaleName = '1000-5000人',
-      this.jobLabels = const ["3-5年", "大专"],
-      this.bossAvatar = '',
-      this.bossName = '张三',
-      this.bossTitle = '高级工程师',
-      this.areaDistrict = '南山',
-      this.businessDistrict = '科技园'});
+  const JobCard({super.key, required this.params});
 
   Row _getFirstRowData() {
     return Row(
@@ -36,12 +15,12 @@ class JobCard extends StatelessWidget {
       children: [
         Flexible(
           child: Text(
-            title,
+            params["jobName"],
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
         Text(
-          salary,
+          params["salaryDesc"],
           style: const TextStyle(
               fontSize: 18,
               color: Config.primaryColor,
@@ -55,14 +34,14 @@ class JobCard extends StatelessWidget {
   Row _getLabel() {
     List<Widget> labelList = [];
 
-    for (int i = 0; i < jobLabels.length; i++) {
+    for (int i = 0; i < params["jobLabels"].length; i++) {
       labelList.add(Container(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 3.0),
           decoration: BoxDecoration(
             color: const Color(0xfff8f8f8), // 灰色背景
             borderRadius: BorderRadius.circular(2.0), // 圆角
           ),
-          child: Text(jobLabels[i],
+          child: Text(params["jobLabels"][i],
               style: const TextStyle(color: Config.lightColor))));
       labelList.add(const SizedBox(width: 8.0));
     }
@@ -79,7 +58,7 @@ class JobCard extends StatelessWidget {
         Row(
           children: [
             CircleAvatar(
-              backgroundImage: NetworkImage(bossAvatar),
+              backgroundImage: NetworkImage(params["bossAvatar"]),
               radius: 14,
             ),
             const SizedBox(width: 15),
@@ -87,7 +66,8 @@ class JobCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start, // 这会使得子元素左对齐
               children: [
-                Text('$bossName.$bossTitle',
+                // '$params['bossName'].$params['bossTitle']'
+                Text('${params["bossName"]}.${params["bossTitle"]}',
                     style: const TextStyle(fontSize: 16),
                     textAlign: TextAlign.left),
                 const Text(
@@ -99,7 +79,7 @@ class JobCard extends StatelessWidget {
             ),
           ],
         ),
-        Text('$areaDistrict $businessDistrict',
+        Text('${params["areaDistrict"]} ${params["businessDistrict"]}',
             style: const TextStyle(color: Config.lightColor))
       ],
     );
@@ -107,28 +87,38 @@ class JobCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.white, // 背景颜色
-      margin: const EdgeInsets.fromLTRB(0, 0, 0, 10.0), // 外间距
-      elevation: 0.001, // 阴影深度
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0), // 圆角大小
-      ),
-      child: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _getFirstRowData(),
-              const SizedBox(height: 10),
-              Text('$brandName  $brandStageName  $brandScaleName',
-                  style: const TextStyle(fontSize: 16)),
-              const SizedBox(height: 10),
-              _getLabel(),
-              const SizedBox(height: 10),
-              _getBottomInfo()
-            ],
-          )),
-    );
+    return InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => JobDetail(todo: '职位详情'),
+            ),
+          );
+        },
+        child: Card(
+          color: Colors.white, // 背景颜色
+          margin: const EdgeInsets.fromLTRB(0, 0, 0, 10.0), // 外间距
+          elevation: 0.001, // 阴影深度
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0), // 圆角大小
+          ),
+          child: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _getFirstRowData(),
+                  const SizedBox(height: 10),
+                  Text(
+                      '${params["brandName"]}  ${params["brandStageName"]}  ${params["brandScaleName"]}',
+                      style: const TextStyle(fontSize: 16)),
+                  const SizedBox(height: 10),
+                  _getLabel(),
+                  const SizedBox(height: 10),
+                  _getBottomInfo()
+                ],
+              )),
+        ));
   }
 }
