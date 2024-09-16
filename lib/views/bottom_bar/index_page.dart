@@ -1,18 +1,141 @@
 import 'package:flutter/material.dart';
+import '../../config.dart';
 import '../../common/http_request.dart';
 import './job_card.dart';
+import 'dart:math' as math;
+
+final GlobalKey<RefreshIndicatorState> _indexPageRefreshKey =
+    GlobalKey<RefreshIndicatorState>(); // 控制下拉刷新
+final ScrollController _indexPageScrollController =
+    ScrollController(); // 控制滚动监听
 
 class IndexPage extends StatelessWidget {
   const IndexPage({super.key});
 
+  // 顶部标签按钮，全部/附近/最新
+  Widget _getTopLabel() {
+    List<Widget> list = [];
+    List<String> labels = ['全部', '附近', '最新'];
+    for (var i = 0; i < labels.length; i++) {
+      list.add(
+        InkWell(
+          onTap: () {
+            // 滚动会顶部
+            _indexPageScrollController
+                .jumpTo(_indexPageScrollController.initialScrollOffset);
+            // 点击文本时要执行的操作
+            _indexPageRefreshKey.currentState?.show();
+          },
+          child: Text(labels[i], style: const TextStyle(fontSize: 16)),
+        ),
+      );
+      list.add(const SizedBox(width: 20));
+    }
+    // return list;
+    return Row(children: list);
+  }
+
+  // 顶部筛选过滤，
+  Widget _getFilter() {
+    List<Widget> list = [];
+    List<String> labels = ['深圳', '筛选'];
+
+    for (var i = 0; i < labels.length; i++) {
+      list.add(Stack(
+        children: [
+          InkWell(
+            onTap: () {
+              print('TextButton被点击');
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: const Color(0xffF6F5F5),
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              padding: const EdgeInsets.fromLTRB(10, 6, 18, 6),
+              margin: const EdgeInsets.only(left: 10),
+              child: Text(labels[i], style: const TextStyle(fontSize: 16)),
+            ),
+          ),
+          Positioned(
+              bottom: 2,
+              right: 2,
+              child: Transform.rotate(
+                angle: math.pi / 4,
+                child: const Icon(
+                  Icons.arrow_right,
+                  size: 16,
+                  color: Colors.grey,
+                ),
+              )),
+        ],
+      ));
+    }
+    return Row(children: list);
+  }
+
+  AppBar _getAppBar({required BuildContext context}) {
+    return AppBar(
+        toolbarHeight: 100,
+        // 底部边框
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1.0),
+          child: Container(
+            decoration: const ShapeDecoration(
+              shape: UnderlineInputBorder(
+                borderSide: BorderSide(
+                    color: Color.fromARGB(255, 198, 198, 198), width: 0.1),
+              ),
+            ),
+          ),
+        ),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Config.secondaryColor,
+                Colors.white,
+                Colors.white,
+                // Color.fromARGB(255, 255, 167, 161)
+              ],
+            ),
+          ),
+        ),
+        title: Column(
+          children: [
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('前端开发工程师',
+                    style:
+                        TextStyle(fontSize: 28, fontWeight: FontWeight.w600)),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Icon(Icons.add, size: 30),
+                      SizedBox(width: 20),
+                      Icon(Icons.search, size: 30),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [_getTopLabel(), _getFilter()],
+            )
+          ],
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('首页'),
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        ),
-        body: const JobList());
+        appBar: _getAppBar(context: context), body: const JobList());
   }
 }
 
@@ -25,25 +148,27 @@ class JobList extends StatefulWidget {
 
 class _JobListState extends State<JobList> {
   final _http = HttpRequest();
-  List<dynamic> _list = [];
-  final ScrollController _scrollController = ScrollController();
-  bool _isLoading = false;
+  List<dynamic> _list = []; // 列表数据
+  bool _isLoading = false; // 控制重复请求
 
   @override
   void initState() {
     super.initState();
     _fetchData();
     // 监听滚动
-    _scrollController.addListener(() {
-      if (_scrollController.position.maxScrollExtent <=
-              _scrollController.offset &&
-          !_isLoading) {
-        _fetchData();
-      }
-    });
+    _indexPageScrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (_indexPageScrollController.position.maxScrollExtent <=
+            _indexPageScrollController.offset &&
+        !_isLoading) {
+      _fetchData();
+    }
   }
 
   Future<void> _fetchData({bool isFresh = false}) async {
+    print('doing fetch data...');
     setState(() {
       _isLoading = true;
     });
@@ -72,46 +197,36 @@ class _JobListState extends State<JobList> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
+        key: _indexPageRefreshKey,
         onRefresh: _onRefresh,
         child: ListView.builder(
           padding: const EdgeInsets.all(10),
           itemCount: _list.length,
-          controller: _scrollController,
+          controller: _indexPageScrollController,
           itemBuilder: (context, index) {
+            Widget item = JobCard(
+              title: _list[index]['jobName'],
+              salary: _list[index]['salaryDesc'],
+              brandName: _list[index]['brandName'],
+              brandStageName: _list[index]['brandStageName'],
+              brandScaleName: _list[index]['brandScaleName'],
+              jobLabels: _list[index]['jobLabels'],
+              bossAvatar: _list[index]['bossAvatar'],
+              bossName: _list[index]['bossName'],
+              bossTitle: _list[index]['bossTitle'],
+              areaDistrict: _list[index]['areaDistrict'],
+              businessDistrict: _list[index]['businessDistrict'],
+            );
             return index == _list.length - 1
                 ? Column(
                     children: [
-                      JobCard(
-                        title: _list[index]['jobName'],
-                        salary: _list[index]['salaryDesc'],
-                        brandName: _list[index]['brandName'],
-                        brandStageName: _list[index]['brandStageName'],
-                        brandScaleName: _list[index]['brandScaleName'],
-                        jobLabels: _list[index]['jobLabels'],
-                        bossAvatar: _list[index]['bossAvatar'],
-                        bossName: _list[index]['bossName'],
-                        bossTitle: _list[index]['bossTitle'],
-                        areaDistrict: _list[index]['areaDistrict'],
-                        businessDistrict: _list[index]['businessDistrict'],
-                      ),
+                      item,
                       const Center(
                         child: CircularProgressIndicator(),
                       )
                     ],
                   )
-                : JobCard(
-                    title: _list[index]['jobName'],
-                    salary: _list[index]['salaryDesc'],
-                    brandName: _list[index]['brandName'],
-                    brandStageName: _list[index]['brandStageName'],
-                    brandScaleName: _list[index]['brandScaleName'],
-                    jobLabels: _list[index]['jobLabels'],
-                    bossAvatar: _list[index]['bossAvatar'],
-                    bossName: _list[index]['bossName'],
-                    bossTitle: _list[index]['bossTitle'],
-                    areaDistrict: _list[index]['areaDistrict'],
-                    businessDistrict: _list[index]['businessDistrict'],
-                  );
+                : item;
           },
         ));
   }
@@ -119,7 +234,7 @@ class _JobListState extends State<JobList> {
   @override
   void dispose() {
     // 清除监听器以避免内存泄漏
-    _scrollController.removeListener(() {});
+    _indexPageScrollController.removeListener(_onScroll);
     super.dispose();
   }
 }
