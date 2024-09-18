@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../config.dart';
 import '../job_detail.dart';
+import '../../widgets/label.dart';
 
 /// 职位信息展示，卡片样式
 class JobCard extends StatelessWidget {
@@ -35,14 +36,7 @@ class JobCard extends StatelessWidget {
     List<Widget> labelList = [];
 
     for (int i = 0; i < params["jobLabels"].length; i++) {
-      labelList.add(Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 3.0),
-          decoration: BoxDecoration(
-            color: const Color(0xfff8f8f8), // 灰色背景
-            borderRadius: BorderRadius.circular(2.0), // 圆角
-          ),
-          child: Text(params["jobLabels"][i],
-              style: const TextStyle(color: Config.lightColor))));
+      labelList.add(LabelWidget(str: params["jobLabels"][i]));
       labelList.add(const SizedBox(width: 8.0));
     }
 
@@ -92,7 +86,7 @@ class JobCard extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => JobDetail(todo: '职位详情'),
+              builder: (context) => JobDetail(info: params),
             ),
           );
         },
