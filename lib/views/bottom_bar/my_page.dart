@@ -68,19 +68,19 @@ class _MyPageState extends State<MyPage> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           IconButton(
-            icon: const Icon(Icons.people),
+            icon: const Icon(Icons.people_outline),
             onPressed: () {
               // 处理搜索按钮点击事件
             },
           ),
           IconButton(
-            icon: const Icon(Icons.fit_screen),
+            icon: const Icon(Icons.fit_screen_outlined),
             onPressed: () {
               // 处理搜索按钮点击事件
             },
           ),
           IconButton(
-            icon: const Icon(Icons.settings),
+            icon: const Icon(Icons.settings_outlined),
             onPressed: () {
               // 处理搜索按钮点击事件
             },
@@ -251,8 +251,7 @@ class _MyPageState extends State<MyPage> {
                 const Positioned(
                   right: 0,
                   bottom: 0,
-                  child:
-                      Icon(Icons.pending, size: 20, color: Color(0xffFFA572)),
+                  child: Icon(Icons.circle, size: 24, color: Color(0xffFFA572)),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(0, 0, 2, 2),
