@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, // 关闭调试模式下的横幅
       title: 'Flutter Demo', // 应用程序标题
       theme: ThemeData(
+        scaffoldBackgroundColor: const Color(0xffF5F5F5), // 默认背景颜色
         useMaterial3: true, // 使用 Material 3 样式
         colorScheme:
             ColorScheme.fromSeed(seedColor: Config.primaryColor), // 设置主题颜色方案
