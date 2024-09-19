@@ -1,4 +1,4 @@
-package com.example.flutter_application_demo
+package com.example.boss_by_flutter
 
 import io.flutter.embedding.android.FlutterActivity
 
