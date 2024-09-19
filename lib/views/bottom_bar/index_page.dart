@@ -196,6 +196,15 @@ class _JobListState extends State<JobList> {
 
   @override
   Widget build(BuildContext context) {
+    if (_list.isEmpty) {
+      return const SizedBox(
+        height: 100,
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     return RefreshIndicator(
         key: _indexPageRefreshKey,
         onRefresh: _onRefresh,

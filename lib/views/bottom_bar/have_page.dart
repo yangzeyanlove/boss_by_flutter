@@ -8,6 +8,7 @@ class HavePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('有了'),
+        backgroundColor: Colors.blue,
       ),
       body: const Center(child: Text('这是有了页面')),
     );

@@ -8,6 +8,7 @@ class MessagePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("消息"),
+        backgroundColor: Colors.blue,
       ),
       body: const Center(
         child: Text("这是消息页面"),
