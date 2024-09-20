@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false, // 关闭调试模式下的横幅
-      title: 'Flutter Demo', // 应用程序标题
+      title: 'Boss by flutter', // 应用程序标题
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xffF5F5F5), // 默认背景颜色
         useMaterial3: true, // 使用 Material 3 样式
