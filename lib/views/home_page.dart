@@ -24,10 +24,10 @@ class _HomePageState extends State<HomePage> {
   // 底部导航按钮配置
   List<BottomNavigationBarItem> _getBarItem() {
     return const [
-      BottomNavigationBarItem(icon: Icon(Icons.home), label: '职位'),
-      BottomNavigationBarItem(icon: Icon(Icons.list), label: '有了'),
+      BottomNavigationBarItem(icon: Icon(Icons.work), label: '职位'),
+      BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: '有了'),
       BottomNavigationBarItem(icon: Icon(Icons.message), label: '消息'),
-      BottomNavigationBarItem(icon: Icon(Icons.person), label: '我的'),
+      BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: '我的'),
     ];
   }
 
@@ -52,6 +52,8 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.white, // 默认背景颜色
         type: BottomNavigationBarType.fixed, // 底部有4个或以上的菜单，就需要配置
         // fixedColor: Colors.red,  // 选中的颜色
+        selectedLabelStyle: const TextStyle(fontSize: 11),
+        unselectedLabelStyle: const TextStyle(fontSize: 11),
       ),
     );
   }

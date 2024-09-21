@@ -13,7 +13,7 @@ class Config {
   };
 
   // 颜色配置
-  static const Color primaryColor = Color(0xFF17989D); // 主题色
+  static const Color primaryColor = Color(0xFF1C959C); // 主题色
   static const Color secondaryColor = Color(0xFF6CD8D8);
   // 定义字体颜色，除了默认字体颜色
   static const Color lightColor = Color(0xFF666666);
