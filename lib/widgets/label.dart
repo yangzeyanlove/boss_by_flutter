@@ -8,7 +8,7 @@ class LabelWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 3.0),
+        padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
         decoration: BoxDecoration(
           color: const Color(0xfff8f8f8), // 灰色背景
           borderRadius: BorderRadius.circular(2.0), // 圆角

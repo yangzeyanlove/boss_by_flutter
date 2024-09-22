@@ -17,15 +17,16 @@ class JobCard extends StatelessWidget {
         Flexible(
           child: Text(
             params["jobName"],
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                fontSize: 18, fontWeight: FontWeight.w500, height: 1.2),
           ),
         ),
         Text(
           params["salaryDesc"],
           style: const TextStyle(
-              fontSize: 18,
+              fontSize: 16,
               color: Config.primaryColor,
-              fontWeight: FontWeight.w600),
+              fontWeight: FontWeight.w500),
         ),
       ],
     );
@@ -53,28 +54,28 @@ class JobCard extends StatelessWidget {
           children: [
             CircleAvatar(
               backgroundImage: NetworkImage(params["bossAvatar"]),
-              radius: 14,
+              radius: 12,
             ),
-            const SizedBox(width: 15),
+            const SizedBox(width: 13),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start, // 这会使得子元素左对齐
               children: [
                 // '$params['bossName'].$params['bossTitle']'
                 Text('${params["bossName"]}.${params["bossTitle"]}',
-                    style: const TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 12),
                     textAlign: TextAlign.left),
                 const Text(
                   '今天回复10+',
                   textAlign: TextAlign.left,
-                  style: TextStyle(color: Config.lightColor),
+                  style: TextStyle(fontSize: 11, color: Config.lightColor),
                 )
               ],
             ),
           ],
         ),
         Text('${params["areaDistrict"]} ${params["businessDistrict"]}',
-            style: const TextStyle(color: Config.lightColor))
+            style: const TextStyle(fontSize: 12, color: Config.lightColor))
       ],
     );
   }
@@ -106,7 +107,7 @@ class JobCard extends StatelessWidget {
                   const SizedBox(height: 10),
                   Text(
                       '${params["brandName"]}  ${params["brandStageName"]}  ${params["brandScaleName"]}',
-                      style: const TextStyle(fontSize: 16)),
+                      style: const TextStyle(fontSize: 14)),
                   const SizedBox(height: 10),
                   _getLabel(),
                   const SizedBox(height: 10),

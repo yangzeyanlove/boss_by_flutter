@@ -26,7 +26,7 @@ class IndexPage extends StatelessWidget {
             // 点击文本时要执行的操作
             _indexPageRefreshKey.currentState?.show();
           },
-          child: Text(labels[i], style: const TextStyle(fontSize: 16)),
+          child: Text(labels[i], style: const TextStyle(fontSize: 13)),
         ),
       );
       list.add(const SizedBox(width: 20));
@@ -53,8 +53,8 @@ class IndexPage extends StatelessWidget {
                 color: const Color(0xffF6F5F5),
                 borderRadius: BorderRadius.circular(4.0),
               ),
-              padding: const EdgeInsets.fromLTRB(10, 6, 18, 6),
-              child: Text(labels[i], style: const TextStyle(fontSize: 16)),
+              padding: const EdgeInsets.fromLTRB(10, 4, 18, 4),
+              child: Text(labels[i], style: const TextStyle(fontSize: 13)),
             ),
           ),
           Positioned(
@@ -76,7 +76,7 @@ class IndexPage extends StatelessWidget {
 
   AppBar _getAppBar({required BuildContext context}) {
     return AppBar(
-        toolbarHeight: 100,
+        toolbarHeight: 90,
         // 底部边框
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1.0),
@@ -110,7 +110,7 @@ class IndexPage extends StatelessWidget {
               children: [
                 Text('前端开发工程师',
                     style:
-                        TextStyle(fontSize: 28, fontWeight: FontWeight.w600)),
+                        TextStyle(fontSize: 24, fontWeight: FontWeight.w500)),
                 Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,

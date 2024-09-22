@@ -89,5 +89,16 @@ flutter:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
+  fonts:
+    - family: SourceHanSansSC
+      fonts:
+        - asset: assets/fonts/SourceHanSansSC/SourceHanSansSC-Regular.otf
+          weight: 400
+        - asset: assets/fonts/SourceHanSansSC/SourceHanSansSC-Medium.otf
+          weight: 500
+        - asset: assets/fonts/SourceHanSansSC/SourceHanSansSC-Heavy.otf
+          weight: 600
+        - asset: assets/fonts/SourceHanSansSC/SourceHanSansSC-Bold.otf
+          weight: 700
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
