@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import '../../config.dart';
 
 class MyPage extends StatefulWidget {
@@ -107,7 +106,16 @@ class _MyPageState extends State<MyPage> {
         child: Text('杨泽炎', style: TextStyle(fontSize: 24)),
       ),
       subtitle: Row(
-        children: [Text('简历评分99分，建议优化'), Icon(Icons.update)],
+        children: [
+          Text(
+            '简历评分99分，建议优化',
+            style: TextStyle(fontSize: 13),
+          ),
+          Icon(
+            Icons.update,
+            size: 18,
+          )
+        ],
       ),
       trailing: Icon(Icons.navigate_next),
     );
@@ -144,9 +152,10 @@ class _MyPageState extends State<MyPage> {
                         : 20),
                 child: Text('杨泽炎',
                     style: TextStyle(
+                        fontWeight: FontWeight.w500,
                         fontSize: offsetTop >= 0
-                            ? 24 - (offsetTop / kToolbarHeight) * 4
-                            : 24)) // 24->20,
+                            ? 22 - (offsetTop / kToolbarHeight) * 4
+                            : 22)) // 24->20,
                 )
           ],
         ),
@@ -172,9 +181,12 @@ class _MyPageState extends State<MyPage> {
               Text(
                 "${item['count']}",
                 style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
-              Text(item['name']),
+              Text(
+                item['name'],
+                style: const TextStyle(fontSize: 12),
+              ),
             ],
           ),
         ),
@@ -192,12 +204,15 @@ class _MyPageState extends State<MyPage> {
       return Expanded(
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           const SizedBox(width: 5),
-          Icon(icon, color: Color(0xffD59064)),
-          Text(title),
+          Icon(icon, color: const Color(0xffD59064), size: 16),
+          Text(title,
+              style:
+                  const TextStyle(fontSize: 13, fontWeight: FontWeight.w500)),
           const SizedBox(width: 10),
-          Text(desc, style: const TextStyle(color: Colors.grey)),
+          Text(desc, style: const TextStyle(fontSize: 13, color: Colors.grey)),
           const Icon(
             Icons.navigate_next,
+            size: 15,
             color: Colors.grey,
           ),
         ]),
@@ -215,7 +230,7 @@ class _MyPageState extends State<MyPage> {
           const SizedBox(height: 10),
           Row(
             children: [
-              getAdItem('刷新简历', '提升曝光', Icons.loop),
+              getAdItem('简历刷新', '提升曝光', Icons.loop),
               Container(
                 width: 1,
                 height: 10,
@@ -256,14 +271,17 @@ class _MyPageState extends State<MyPage> {
                 Container(
                   padding: const EdgeInsets.fromLTRB(0, 0, 2, 2),
                   child: Icon(item['icon'],
-                      size: 40, color: const Color(0xff1FB7BA)),
+                      size: 36, color: const Color(0xff1FB7BA)),
                 )
               ],
             ),
             const SizedBox(height: 5),
-            Text(item['name']),
+            Text(
+              item['name'],
+              style: const TextStyle(fontSize: 12),
+            ),
             Text(item['desc'],
-                style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                style: const TextStyle(fontSize: 11, color: Colors.grey)),
           ],
         ),
       ));
@@ -281,7 +299,7 @@ class _MyPageState extends State<MyPage> {
         children: [
           const Text(
             '常用功能',
-            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500),
           ),
           const SizedBox(height: 15),
           Row(
@@ -316,126 +334,61 @@ class _MyPageState extends State<MyPage> {
     ];
 
     return Container(
-        padding: const EdgeInsets.fromLTRB(15, 15, 15, 25),
+        padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10.0), //设置圆角半径为10
         ),
         child: Column(
           children: [
-            const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('其他功能',
-                      style: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.bold)),
-                  Row(
+            const Padding(
+                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        '查看全部',
-                        style: TextStyle(color: Colors.grey),
+                      Text('其他功能',
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w500)),
+                      Row(
+                        children: [
+                          Text(
+                            '查看全部',
+                            style: TextStyle(fontSize: 12, color: Colors.grey),
+                          ),
+                          Icon(Icons.navigate_next, color: Colors.grey)
+                        ],
                       ),
-                      Icon(Icons.navigate_next, color: Colors.grey)
-                    ],
-                  ),
-                ]),
+                    ])),
             const SizedBox(height: 10),
             SizedBox(
-              height: 280,
+              height: 250,
               child: GridView.builder(
                 padding:
                     const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                ),
+                    crossAxisCount: 4, mainAxisExtent: 75),
                 itemCount: dataList.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Column(
                     children: [
                       Icon(
                         dataList[index]['icon'],
-                        size: 36,
+                        size: 25,
                         color: const Color(0xff5A5A5A),
                       ),
                       const SizedBox(height: 10),
                       Text(
                         dataList[index]['name'],
-                        style: TextStyle(
-                          color: const Color(0xff5A5A5A),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Color(0xff5A5A5A),
                         ),
                       ),
                     ],
                   );
                 },
               ),
-              // child: GridView.count(
-              //     padding:
-              //         const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-              //     crossAxisCount: 4,
-              //     physics: const NeverScrollableScrollPhysics(),
-              //     children: [
-              //       Column(children: [
-              //         Icon(Icons.edit),
-              //         SizedBox(height: 10),
-              //         Text('直聘分'),
-              //       ]),
-              //       Column(children: [
-              //         Icon(Icons.edit),
-              //         SizedBox(height: 10),
-              //         Text('直聘分'),
-              //       ]),
-              //       Column(children: [
-              //         Icon(Icons.edit),
-              //         SizedBox(height: 10),
-              //         Text('直聘分'),
-              //       ]),
-              //       Column(children: [
-              //         Icon(Icons.edit),
-              //         SizedBox(height: 10),
-              //         Text('直聘分'),
-              //       ]),
-              //       Column(children: [
-              //         Icon(Icons.edit),
-              //         SizedBox(height: 10),
-              //         Text('直聘分'),
-              //       ]),
-              //       Column(children: [
-              //         Icon(Icons.edit),
-              //         SizedBox(height: 10),
-              //         Text('直聘分'),
-              //       ]),
-              //       Column(children: [
-              //         Icon(Icons.edit),
-              //         SizedBox(height: 10),
-              //         Text('直聘分'),
-              //       ]),
-              //       Column(children: [
-              //         Icon(Icons.edit),
-              //         SizedBox(height: 10),
-              //         Text('直聘分'),
-              //       ]),
-              //       Column(children: [
-              //         Icon(Icons.edit),
-              //         Text('直聘分'),
-              //       ]),
-              //       Column(children: [
-              //         Icon(Icons.edit),
-              //         Text('直聘分'),
-              //       ]),
-              //       Column(children: [
-              //         Icon(Icons.edit),
-              //         Text('直聘分'),
-              //       ]),
-              //       Column(children: [
-              //         Icon(Icons.edit),
-              //         Text('直聘分'),
-              //       ]),
-              //       Column(children: [
-              //         Icon(Icons.edit),
-              //         Text('直聘分'),
-              //       ]),
-              //     ]),
             ),
           ],
         ));
@@ -471,7 +424,7 @@ class _MyPageState extends State<MyPage> {
             const SizedBox(height: 10),
             // 底部信息
             const DefaultTextStyle(
-              style: TextStyle(fontSize: 13, color: Colors.grey, height: 1.8),
+              style: TextStyle(fontSize: 12, color: Colors.grey, height: 1.8),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

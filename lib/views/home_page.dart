@@ -52,8 +52,8 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.white, // 默认背景颜色
         type: BottomNavigationBarType.fixed, // 底部有4个或以上的菜单，就需要配置
         // fixedColor: Colors.red,  // 选中的颜色
-        selectedLabelStyle: const TextStyle(fontSize: 11),
-        unselectedLabelStyle: const TextStyle(fontSize: 11),
+        selectedLabelStyle: const TextStyle(fontSize: 10),
+        unselectedLabelStyle: const TextStyle(fontSize: 10),
       ),
     );
   }
