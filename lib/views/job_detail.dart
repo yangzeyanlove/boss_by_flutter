@@ -47,9 +47,10 @@ class _JobDetailState extends State<JobDetail> {
   // 顶部栏
   PreferredSizeWidget _getAppBar(Map<String, dynamic> info) {
     return AppBar(
+      titleSpacing: 0,
       title: Opacity(
         opacity: _appBarTitleOpacity,
-        child: Text(info['jobName']),
+        child: Text(info['jobName'], style: const TextStyle(fontSize: 16)),
       ),
       actions: [
         IconButton(icon: const Icon(Icons.star_border), onPressed: () {}),
@@ -101,15 +102,16 @@ class _JobDetailState extends State<JobDetail> {
           Flexible(
             child: Text(
               info["jobName"],
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  fontSize: 24, fontWeight: FontWeight.bold, height: 1.3),
             ),
           ),
           Text(
             info["salaryDesc"],
             style: const TextStyle(
-                fontSize: 20,
+                fontSize: 18,
                 color: Config.primaryColor,
-                fontWeight: FontWeight.w600),
+                fontWeight: FontWeight.w500),
           ),
         ],
       ),
@@ -154,17 +156,22 @@ class _JobDetailState extends State<JobDetail> {
           contentPadding: const EdgeInsets.all(0),
           leading: CircleAvatar(
             backgroundImage: NetworkImage(info["bossAvatar"]),
-            radius: 30,
+            radius: 28,
           ),
-          title: Text(info["bossName"], style: const TextStyle(fontSize: 18)),
+          title: Text(info["bossName"],
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 4.0),
-              Text(info["brandName"] + "·" + info["bossTitle"]),
+              Text(
+                info["brandName"] + "·" + info["bossTitle"],
+                style: const TextStyle(fontSize: 13),
+              ),
               const SizedBox(height: 4.0),
               const Text('今日活跃',
-                  style: TextStyle(fontSize: 13, color: Colors.grey))
+                  style: TextStyle(fontSize: 12, color: Colors.grey))
             ],
           ),
           trailing: const Icon(Icons.navigate_next),
@@ -186,12 +193,12 @@ class _JobDetailState extends State<JobDetail> {
         ListTile(
           contentPadding: EdgeInsets.all(0),
           title: Text("工作地址",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 8.0),
-              Text("深圳福田区京基滨河时代广场A座40楼4005", style: TextStyle(fontSize: 16)),
+              Text("深圳福田区京基滨河时代广场A座40楼4005", style: TextStyle(fontSize: 14)),
               SizedBox(height: 8.0),
               Row(
                 children: [
@@ -230,8 +237,11 @@ class _JobDetailState extends State<JobDetail> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text('员工福利 ',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            Icon(Icons.help_outline),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+            Icon(
+              Icons.help_outline,
+              size: 20,
+            ),
           ],
         ),
         const SizedBox(height: 8),
@@ -284,7 +294,7 @@ class _JobDetailState extends State<JobDetail> {
       children: [
         const SizedBox(height: 20),
         const Text('职位详情',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
         const SizedBox(height: 10),
         Wrap(
           spacing: 10,
@@ -294,7 +304,7 @@ class _JobDetailState extends State<JobDetail> {
         const SizedBox(height: 20),
         const Text(
           content,
-          style: TextStyle(fontSize: 16),
+          style: TextStyle(fontSize: 15, color: Color(0xff5e5e5e), height: 1.7),
         ),
         const SizedBox(height: 20),
         const Divider(
@@ -324,9 +334,10 @@ class _JobDetailState extends State<JobDetail> {
         const SizedBox(height: 20),
         ListTile(
           contentPadding: const EdgeInsets.all(0),
-          leading: Image(image: NetworkImage(info["brandLogo"])),
-          title: Text(info["brandName"], style: const TextStyle(fontSize: 18)),
-          subtitle: Text(list.join('·'), style: const TextStyle(fontSize: 14)),
+          leading: Image(
+              image: NetworkImage(info["brandLogo"]), width: 48, height: 48),
+          title: Text(info["brandName"], style: const TextStyle(fontSize: 16)),
+          subtitle: Text(list.join('·'), style: const TextStyle(fontSize: 13)),
           trailing: const Icon(Icons.navigate_next),
         ),
         const SizedBox(height: 20),
@@ -350,18 +361,19 @@ class _JobDetailState extends State<JobDetail> {
             Icon(
               Icons.privacy_tip,
               color: Colors.blue,
+              size: 20,
             ),
             SizedBox(
               width: 5,
             ),
             Text('BOSS安全提示',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
           ],
         ),
         const SizedBox(height: 10),
         const Text(
           '''BOSS直聘严禁用人单位和招聘者用户做出任何损害求职者合法权益的违法违规行为，包括但不限于扣押求职者证件、收取求职者财物、向求职者集资、让求职者入股、诱导求职者异地入职、异地参加培训、违法违规使用求职者简历等，您一旦发现此类行为， 请立即举报''',
-          style: TextStyle(height: 1.7),
+          style: TextStyle(fontSize: 13, height: 1.6, color: Color(0xff5e5e5e)),
         ),
         const SizedBox(
           height: 4,
@@ -370,7 +382,7 @@ class _JobDetailState extends State<JobDetail> {
           onTap: () {},
           child: const Text(
             '了解更多职场安全防范知识 >',
-            style: TextStyle(color: Colors.blue),
+            style: TextStyle(fontSize: 13, color: Colors.blue),
           ),
         ),
         const SizedBox(height: 50),
@@ -405,7 +417,7 @@ class _JobDetailState extends State<JobDetail> {
       ),
       body: ListView(
         controller: _scrollController,
-        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
+        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15.0),
         children: [
           // 职位基本信息
           _getJobInfo(widget.info),
