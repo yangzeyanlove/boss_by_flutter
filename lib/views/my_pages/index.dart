@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import '../../config.dart';
 
-class MyPage extends StatefulWidget {
-  const MyPage({super.key});
+class MyIndexPage extends StatefulWidget {
+  const MyIndexPage({super.key});
 
   @override
-  State<MyPage> createState() => _MyPageState();
+  State<MyIndexPage> createState() => _MyIndexPageState();
 }
 
-class _MyPageState extends State<MyPage> {
+class _MyIndexPageState extends State<MyIndexPage> {
   final ScrollController _scrollController = ScrollController();
   double offsetTop = 0.0;
 

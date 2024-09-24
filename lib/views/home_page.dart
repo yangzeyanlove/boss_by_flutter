@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'bottom_bar/index_page.dart';
-import 'bottom_bar/have_page.dart';
-import 'bottom_bar/message_page.dart';
-import 'bottom_bar/my_page.dart';
+import 'job_pages/index.dart';
+import 'have_pages/index.dart';
+import 'message_pages/index.dart';
+import 'my_pages/index.dart';
 import '../config.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,12 +13,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0;
+  int _currentIndex = 1;
   final List<Widget> _pages = [
-    const IndexPage(),
-    const HavePage(),
-    const MessagePage(),
-    const MyPage(),
+    const JobIndexPage(),
+    const HaveIndexPage(),
+    const MessageIndexPage(),
+    const MyIndexPage(),
   ];
 
   // 底部导航按钮配置

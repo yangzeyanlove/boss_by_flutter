@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import '../../config.dart';
 import '../../common/http_request.dart';
-import './job_card.dart';
+import '../../widgets/job_card.dart';
 import 'dart:math' as math;
 
-final GlobalKey<RefreshIndicatorState> _indexPageRefreshKey =
+final GlobalKey<RefreshIndicatorState> _jobIndexRefreshKey =
     GlobalKey<RefreshIndicatorState>(); // 控制下拉刷新
-final ScrollController _indexPageScrollController =
-    ScrollController(); // 控制滚动监听
+final ScrollController _jobIndexScrollController = ScrollController(); // 控制滚动监听
 
-class IndexPage extends StatelessWidget {
-  const IndexPage({super.key});
+class JobIndexPage extends StatelessWidget {
+  const JobIndexPage({super.key});
 
   // 顶部标签按钮，全部/附近/最新
   Widget _getTopLabel() {
@@ -21,10 +20,10 @@ class IndexPage extends StatelessWidget {
         InkWell(
           onTap: () {
             // 滚动会顶部
-            _indexPageScrollController
-                .jumpTo(_indexPageScrollController.initialScrollOffset);
+            _jobIndexScrollController
+                .jumpTo(_jobIndexScrollController.initialScrollOffset);
             // 点击文本时要执行的操作
-            _indexPageRefreshKey.currentState?.show();
+            _jobIndexRefreshKey.currentState?.show();
           },
           child: Text(labels[i], style: const TextStyle(fontSize: 13)),
         ),
@@ -156,12 +155,12 @@ class _JobListState extends State<JobList> {
     super.initState();
     _fetchData();
     // 监听滚动
-    _indexPageScrollController.addListener(_onScroll);
+    _jobIndexScrollController.addListener(_onScroll);
   }
 
   void _onScroll() {
-    if (_indexPageScrollController.position.maxScrollExtent <=
-            _indexPageScrollController.offset &&
+    if (_jobIndexScrollController.position.maxScrollExtent <=
+            _jobIndexScrollController.offset &&
         !_isLoading) {
       _fetchData();
     }
@@ -206,12 +205,12 @@ class _JobListState extends State<JobList> {
     }
 
     return RefreshIndicator(
-        key: _indexPageRefreshKey,
+        key: _jobIndexRefreshKey,
         onRefresh: _onRefresh,
         child: ListView.builder(
           padding: const EdgeInsets.all(10),
           itemCount: _list.length,
-          controller: _indexPageScrollController,
+          controller: _jobIndexScrollController,
           itemBuilder: (context, index) {
             Widget item = JobCard(params: _list[index]);
             return index == _list.length - 1
@@ -231,7 +230,7 @@ class _JobListState extends State<JobList> {
   @override
   void dispose() {
     // 清除监听器以避免内存泄漏
-    _indexPageScrollController.removeListener(_onScroll);
+    _jobIndexScrollController.removeListener(_onScroll);
     super.dispose();
   }
 }
