@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../config.dart';
 import '../../common/http_request.dart';
-import '../../widgets/job_card.dart';
+import 'job_card.dart';
 import 'dart:math' as math;
 
 final GlobalKey<RefreshIndicatorState> _jobIndexRefreshKey =

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../config.dart';
-import '../widgets/label.dart';
+import '../../config.dart';
+import '../../widgets/label.dart';
 
 class JobDetail extends StatefulWidget {
   final Map<String, dynamic> info;
