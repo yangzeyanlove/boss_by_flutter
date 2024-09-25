@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../config.dart';
+import 'top_list.dart';
+import 'good_article.dart';
 
 class HaveIndexPage extends StatelessWidget {
   const HaveIndexPage({super.key});
@@ -86,7 +88,14 @@ class TabViewContent extends StatefulWidget {
 class _TabViewContentState extends State<TabViewContent>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  List<String> data = ['精选', '求职', '直播', '等你来答', '好文', '关注'];
+  List data = [
+    {'label': '精选', 'getWidget': () => const TopList()},
+    {'label': '好文', 'getWidget': () => const GoodArticle()},
+    {'label': '求职', 'getWidget': () => const TopList()},
+    {'label': '直播', 'getWidget': () => const TopList()},
+    {'label': '等你来答', 'getWidget': () => const TopList()},
+    {'label': '关注', 'getWidget': () => const TopList()},
+  ];
 
   @override
   void initState() {
@@ -107,8 +116,8 @@ class _TabViewContentState extends State<TabViewContent>
     for (var i = 0; i < data.length; i++) {
       tabsList.add(Tab(
         height: 30,
-        iconMargin: EdgeInsets.all(0),
-        text: data[i],
+        iconMargin: const EdgeInsets.all(0),
+        text: data[i]['label'],
       ));
     }
 
@@ -133,10 +142,10 @@ class _TabViewContentState extends State<TabViewContent>
     );
   }
 
-  List<Widget> _getTabBarView() {
+  List<Widget> _getTabBarViewList() {
     List<Widget> list = [];
     for (var i = 0; i < data.length; i++) {
-      list.add(const CacheContent());
+      list.add(data[i]['getWidget']());
     }
     return list;
   }
@@ -150,38 +159,9 @@ class _TabViewContentState extends State<TabViewContent>
         color: const Color(0xffF5F5F5),
         child: TabBarView(
           controller: _tabController,
-          children: _getTabBarView(),
+          children: _getTabBarViewList(),
         ),
       ),
-    );
-  }
-}
-
-// 保活页面，保留页面状态，包括滚动位置
-class CacheContent extends StatefulWidget {
-  const CacheContent({super.key});
-
-  @override
-  State<CacheContent> createState() => _CacheContentState();
-}
-
-class _CacheContentState extends State<CacheContent>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true; // 保活设置
-
-  @override
-  Widget build(BuildContext context) {
-    super.build(context); // 需要调用super.build(context)
-
-    return ListView.builder(
-      padding: const EdgeInsets.all(8.0),
-      itemCount: 50,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(' for Tab - Item $index'),
-        );
-      },
     );
   }
 }

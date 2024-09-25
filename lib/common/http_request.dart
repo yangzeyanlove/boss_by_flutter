@@ -47,7 +47,9 @@ class HttpRequest {
       final response =
           await _dio.get(url, options: Options(), queryParameters: params);
       if (response.statusCode == 200) {
-        return json.decode(response.data);
+        return response.data.runtimeType == String
+            ? json.decode(response.data)
+            : response.data;
       }
       return {
         'code': response.statusCode,
