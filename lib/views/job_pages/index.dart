@@ -11,6 +11,46 @@ final ScrollController _jobIndexScrollController = ScrollController(); // 控制
 class JobIndexPage extends StatelessWidget {
   const JobIndexPage({super.key});
 
+  AppBar _getAppBar({required BuildContext context}) {
+    return AppBar(
+      toolbarHeight: 50,
+      flexibleSpace: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Config.secondaryColor,
+              Colors.white,
+              Colors.white,
+              // Color.fromARGB(255, 255, 167, 161)
+            ],
+          ),
+        ),
+      ),
+      title: const Text('前端开发工程师',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500)),
+      actions: const [
+        Icon(Icons.add, size: 30),
+        SizedBox(width: 10),
+        Icon(Icons.search, size: 30),
+        SizedBox(width: 20),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: _getAppBar(context: context),
+      body: const JobPageContent(),
+    );
+  }
+}
+
+class JobPageContent extends StatelessWidget {
+  const JobPageContent({super.key});
+
   // 顶部标签按钮，全部/附近/最新
   Widget _getTopLabel() {
     List<Widget> list = [];
@@ -73,68 +113,20 @@ class JobIndexPage extends StatelessWidget {
     return Row(children: list);
   }
 
-  AppBar _getAppBar({required BuildContext context}) {
-    return AppBar(
-        toolbarHeight: 90,
-        // 底部边框
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1.0),
-          child: Container(
-            decoration: const ShapeDecoration(
-              shape: UnderlineInputBorder(
-                borderSide: BorderSide(
-                    color: Color.fromARGB(255, 198, 198, 198), width: 0.1),
-              ),
-            ),
-          ),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Config.secondaryColor,
-                Colors.white,
-                Colors.white,
-                // Color.fromARGB(255, 255, 167, 161)
-              ],
-            ),
-          ),
-        ),
-        title: Column(
-          children: [
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('前端开发工程师',
-                    style:
-                        TextStyle(fontSize: 24, fontWeight: FontWeight.w500)),
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Icon(Icons.add, size: 30),
-                      SizedBox(width: 20),
-                      Icon(Icons.search, size: 30),
-                    ],
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [_getTopLabel(), _getFilter()],
-            )
-          ],
-        ));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _getAppBar(context: context), body: const JobList());
+      appBar: AppBar(
+        // titleSpacing: 0,
+        toolbarHeight: 40,
+        backgroundColor: Colors.white,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [_getTopLabel(), _getFilter()],
+        ),
+      ),
+      body: const JobList(),
+    );
   }
 }
 
