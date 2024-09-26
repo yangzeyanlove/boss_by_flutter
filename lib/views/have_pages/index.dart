@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../config.dart';
 import 'top_list.dart';
 import 'good_article.dart';
+import 'wait_you_answer.dart';
 
 class HaveIndexPage extends StatelessWidget {
   const HaveIndexPage({super.key});
@@ -91,9 +92,9 @@ class _TabViewContentState extends State<TabViewContent>
   List data = [
     {'label': '精选', 'getWidget': () => const TopList()},
     {'label': '好文', 'getWidget': () => const GoodArticle()},
+    {'label': '等你来答', 'getWidget': () => const WaitYouAnswer()},
     {'label': '求职', 'getWidget': () => const TopList()},
     {'label': '直播', 'getWidget': () => const TopList()},
-    {'label': '等你来答', 'getWidget': () => const TopList()},
     {'label': '关注', 'getWidget': () => const TopList()},
   ];
 

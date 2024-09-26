@@ -32,7 +32,7 @@ class _SubContentState extends State<TopList>
     });
 
     // 模拟延迟2s
-    await Future.delayed(const Duration(seconds: 2));
+    // await Future.delayed(const Duration(milliseconds: 500));
 
     try {
       Map<String, dynamic> data = await _http.get(
@@ -68,8 +68,6 @@ class _SubContentState extends State<TopList>
         var picList = itemData['picList'];
         var coverImg = itemData['coverImg'];
         var fileInfo = itemData['file'];
-        var videoUrl =
-            'https://zhipin-moment-1251955568.zhipin.com/zhipin-moment/99/20240521/fp_zhipin-mo_25016047ac0845dfa59e767d4c99fee8-OSS8.55447832ec66OSS8.mp4?sign=ff7b8758f3da9713974cff0c12c760cf&t=1727194713';
 
         return Card(
           color: Colors.white, // 背景颜色
@@ -145,8 +143,7 @@ class _SubContentState extends State<TopList>
                           children: [
                             const SizedBox(height: 10),
                             CustomVideoPlayer(
-                              // videoUrl: fileInfo['url'],
-                              videoUrl: videoUrl,
+                              videoUrl: fileInfo['url'],
                               width: 120,
                               height: 200,
                             ),

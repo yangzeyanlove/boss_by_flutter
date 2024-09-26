@@ -173,7 +173,7 @@ class _JobListState extends State<JobList> {
     });
 
     // 模拟延迟2s
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 500));
 
     try {
       Map<String, dynamic> data = await _http.get(
