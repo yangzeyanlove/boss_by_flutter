@@ -90,12 +90,12 @@ class _TabViewContentState extends State<TabViewContent>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   List data = [
-    {'label': '精选', 'getWidget': () => const TopList()},
-    {'label': '好文', 'getWidget': () => const GoodArticle()},
-    {'label': '等你来答', 'getWidget': () => const WaitYouAnswer()},
-    {'label': '求职', 'getWidget': () => const TopList()},
-    {'label': '直播', 'getWidget': () => const TopList()},
-    {'label': '关注', 'getWidget': () => const TopList()},
+    {'label': '精选', 'getWidget': () => TopList()},
+    {'label': '好文', 'getWidget': () => GoodArticle()},
+    {'label': '等你来答', 'getWidget': () => WaitYouAnswer()},
+    {'label': '求职', 'getWidget': () => TopList()},
+    {'label': '直播', 'getWidget': () => TopList()},
+    {'label': '关注', 'getWidget': () => TopList()},
   ];
 
   @override

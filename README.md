@@ -11,6 +11,7 @@ assets/         // - 存放所有的静态资源，比如图片、字体文件�
   images/       // - 图片资源。
 lib/            // - 这是存放所有应用程序逻辑的地方，通常包括以下子目录：
   common/       // - 常用工具类，例如请求封装，缓存封装等等
+  controller/   // - getx相关控制器，管理各个模块的数据，类似model层
   views/        // - 所有页面的入口文件
   widgets/      // - 公共的widget组件
   config.dart   // - 全局配置文件
