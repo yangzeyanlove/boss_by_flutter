@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import '../../config.dart';
-import '../../common/http_request.dart';
 import 'job_card.dart';
 import 'dart:math' as math;
-
-final GlobalKey<RefreshIndicatorState> _jobIndexRefreshKey =
-    GlobalKey<RefreshIndicatorState>(); // 控制下拉刷新
-final ScrollController _jobIndexScrollController = ScrollController(); // 控制滚动监听
+import 'package:get/get.dart';
+import '../../controller/job_list_controller.dart';
 
 class JobIndexPage extends StatelessWidget {
   const JobIndexPage({super.key});
 
   AppBar _getAppBar({required BuildContext context}) {
     return AppBar(
-      toolbarHeight: 50,
+      toolbarHeight: 45,
       flexibleSpace: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -21,6 +18,7 @@ class JobIndexPage extends StatelessWidget {
             end: Alignment.bottomCenter,
             colors: [
               Config.secondaryColor,
+              Color(0xffBBECEE),
               Colors.white,
               Colors.white,
               // Color.fromARGB(255, 255, 167, 161)
@@ -43,43 +41,45 @@ class JobIndexPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _getAppBar(context: context),
-      body: const JobPageContent(),
+      body: JobPageContent(),
     );
   }
 }
 
 class JobPageContent extends StatelessWidget {
-  const JobPageContent({super.key});
+  final GlobalKey<RefreshIndicatorState> _jobIndexRefreshKey =
+      GlobalKey<RefreshIndicatorState>(); // 控制下拉刷新
+  // 申明getx控制器，职位列表数据控制器
+  final JobListController jobListCtrl = Get.put(JobListController());
+
+  JobPageContent({super.key});
 
   // 顶部标签按钮，全部/附近/最新
   Widget _getTopLabel() {
     List<Widget> list = [];
-    List<String> labels = ['全部', '附近', '最新'];
-    for (var i = 0; i < labels.length; i++) {
+    for (var i = 0; i < jobListCtrl.tabLabels.length; i++) {
       list.add(
         InkWell(
           onTap: () {
             // 滚动会顶部
-            _jobIndexScrollController
-                .jumpTo(_jobIndexScrollController.initialScrollOffset);
+            jobListCtrl.scrollTop();
             // 点击文本时要执行的操作
             _jobIndexRefreshKey.currentState?.show();
           },
-          child: Text(labels[i], style: const TextStyle(fontSize: 13)),
+          child: Text(jobListCtrl.tabLabels[i],
+              style: const TextStyle(fontSize: 13)),
         ),
       );
       list.add(const SizedBox(width: 20));
     }
-    // return list;
     return Row(children: list);
   }
 
   // 顶部筛选过滤，
   Widget _getFilter() {
     List<Widget> list = [];
-    List<String> labels = ['深圳', '筛选'];
 
-    for (var i = 0; i < labels.length; i++) {
+    for (var i = 0; i < jobListCtrl.filterType.length; i++) {
       list.add(const SizedBox(width: 10));
       list.add(Stack(
         children: [
@@ -93,7 +93,8 @@ class JobPageContent extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4.0),
               ),
               padding: const EdgeInsets.fromLTRB(10, 4, 18, 4),
-              child: Text(labels[i], style: const TextStyle(fontSize: 13)),
+              child: Text(jobListCtrl.filterType[i],
+                  style: const TextStyle(fontSize: 13)),
             ),
           ),
           Positioned(
@@ -113,11 +114,44 @@ class JobPageContent extends StatelessWidget {
     return Row(children: list);
   }
 
+  Future<void> _onRefresh() async {
+    await jobListCtrl.fetchData(isFresh: true);
+  }
+
+  // 滚动内容区域，主要内容区域
+  Widget getMainContent() {
+    return jobListCtrl.listData.isEmpty
+        ? const SizedBox(
+            height: 100,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          )
+        : ListView.builder(
+            padding: const EdgeInsets.all(10),
+            itemCount: jobListCtrl.listData.length,
+            controller: jobListCtrl.scrollController,
+            itemBuilder: (context, index) {
+              Widget item = JobCard(params: jobListCtrl.listData[index]);
+              return index == jobListCtrl.listData.length - 1
+                  ? Column(
+                      children: [
+                        item,
+                        const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      ],
+                    )
+                  : item;
+            },
+          );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // titleSpacing: 0,
+        scrolledUnderElevation: 0,
         toolbarHeight: 40,
         backgroundColor: Colors.white,
         title: Row(
@@ -125,104 +159,11 @@ class JobPageContent extends StatelessWidget {
           children: [_getTopLabel(), _getFilter()],
         ),
       ),
-      body: const JobList(),
-    );
-  }
-}
-
-class JobList extends StatefulWidget {
-  const JobList({super.key});
-
-  @override
-  State<JobList> createState() => _JobListState();
-}
-
-class _JobListState extends State<JobList> {
-  final _http = HttpRequest();
-  List<dynamic> _list = []; // 列表数据
-  bool _isLoading = false; // 控制重复请求
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchData();
-    // 监听滚动
-    _jobIndexScrollController.addListener(_onScroll);
-  }
-
-  void _onScroll() {
-    if (_jobIndexScrollController.position.maxScrollExtent <=
-            _jobIndexScrollController.offset &&
-        !_isLoading) {
-      _fetchData();
-    }
-  }
-
-  Future<void> _fetchData({bool isFresh = false}) async {
-    print('doing fetch data...');
-    setState(() {
-      _isLoading = true;
-    });
-
-    // 模拟延迟2s
-    await Future.delayed(const Duration(milliseconds: 500));
-
-    try {
-      Map<String, dynamic> data = await _http.get(
-          'https://result.eolink.com/1PU8uLH9435a64bcd63e35fcb4dd6948bff5e7ebb444977?uri=/job/new-list');
-      setState(() {
-        _list = isFresh
-            ? data['zpData']['jobList']
-            : [..._list, ...data['zpData']['jobList']];
-        _isLoading = false;
-      });
-    } catch (error) {
-      rethrow;
-    }
-  }
-
-  Future<void> _onRefresh() async {
-    await _fetchData(isFresh: true);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (_list.isEmpty) {
-      return const SizedBox(
-        height: 100,
-        child: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
-
-    return RefreshIndicator(
+      body: RefreshIndicator(
         key: _jobIndexRefreshKey,
         onRefresh: _onRefresh,
-        child: ListView.builder(
-          padding: const EdgeInsets.all(10),
-          itemCount: _list.length,
-          controller: _jobIndexScrollController,
-          itemBuilder: (context, index) {
-            Widget item = JobCard(params: _list[index]);
-            return index == _list.length - 1
-                ? Column(
-                    children: [
-                      item,
-                      const Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    ],
-                  )
-                : item;
-          },
-        ));
-  }
-
-  @override
-  void dispose() {
-    // 清除监听器以避免内存泄漏
-    _jobIndexScrollController.removeListener(_onScroll);
-    super.dispose();
+        child: Obx(() => getMainContent()),
+      ),
+    );
   }
 }

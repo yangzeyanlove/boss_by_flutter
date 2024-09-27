@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'views/home_page.dart';
 import 'config.dart';
+import 'package:get/get.dart';
 
 void main() {
   // 启动应用程序
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
                 "PingFang SC",
               ];
 
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false, // 关闭调试模式下的横幅
       title: 'Boss by flutter', // 应用程序标题
       theme: ThemeData(

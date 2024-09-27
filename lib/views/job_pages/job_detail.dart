@@ -48,6 +48,7 @@ class _JobDetailState extends State<JobDetail> {
   PreferredSizeWidget _getAppBar(Map<String, dynamic> info) {
     return AppBar(
       titleSpacing: 0,
+      scrolledUnderElevation: 0,
       title: Opacity(
         opacity: _appBarTitleOpacity,
         child: Text(info['jobName'], style: const TextStyle(fontSize: 16)),
