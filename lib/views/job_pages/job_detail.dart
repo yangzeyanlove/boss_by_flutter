@@ -1,57 +1,27 @@
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import '../../config.dart';
 import '../../widgets/label.dart';
+import '../../controller/job_detail_controller.dart';
 
-class JobDetail extends StatefulWidget {
+class JobDetail extends StatelessWidget {
+  // 申明getx控制器，职位列表数据控制器
+  final JobDetailController jobDetailCtrl = Get.put(JobDetailController());
   final Map<String, dynamic> info;
-  const JobDetail({super.key, required this.info});
 
-  @override
-  State<JobDetail> createState() => _JobDetailState();
-}
-
-class _JobDetailState extends State<JobDetail> {
-  final ScrollController _scrollController = ScrollController();
-  double appBarHeight = kToolbarHeight; // appBar的高度
-  double _appBarTitleOpacity = 0.0;
-
-  @override
-  void initState() {
-    super.initState();
-    // 监听滚动
-    _scrollController.addListener(_onScroll);
-  }
-
-  // 滚动事件
-  _onScroll() {
-    double offset = _scrollController.offset;
-    if (offset < appBarHeight) {
-      setState(() {
-        _appBarTitleOpacity = (offset > 0 ? offset : 0) / appBarHeight;
-      });
-    } else {
-      setState(() {
-        _appBarTitleOpacity = 1.0;
-      });
-    }
-  }
-
-  @override
-  void dispose() {
-    // 清除监听器以避免内存泄漏
-    _scrollController.removeListener(_onScroll);
-    _scrollController.dispose();
-    super.dispose();
-  }
+  JobDetail({super.key, required this.info});
 
   // 顶部栏
-  PreferredSizeWidget _getAppBar(Map<String, dynamic> info) {
+  PreferredSizeWidget _getAppBar() {
     return AppBar(
       titleSpacing: 0,
       scrolledUnderElevation: 0,
-      title: Opacity(
-        opacity: _appBarTitleOpacity,
-        child: Text(info['jobName'], style: const TextStyle(fontSize: 16)),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      title: Obx(
+        () => Opacity(
+          opacity: jobDetailCtrl.appBarOpacity.value,
+          child: Text(info['jobName'], style: const TextStyle(fontSize: 16)),
+        ),
       ),
       actions: [
         IconButton(icon: const Icon(Icons.star_border), onPressed: () {}),
@@ -72,12 +42,11 @@ class _JobDetailState extends State<JobDetail> {
           ),
         ),
       ),
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
     );
   }
 
   // 职位地址
-  Widget _getAddress(Map<String, dynamic> info) {
+  Widget _getAddress() {
     List<String> list = [];
     if (info["cityName"] != null && info["cityName"]!.isNotEmpty) {
       list.add(info["cityName"]);
@@ -93,7 +62,7 @@ class _JobDetailState extends State<JobDetail> {
   }
 
   // 职位基本信息
-  Widget _getJobInfo(Map<String, dynamic> info) {
+  Widget _getJobInfo() {
     return Column(children: [
       // 职位名称
       Row(
@@ -121,7 +90,7 @@ class _JobDetailState extends State<JobDetail> {
         children: [
           const Icon(Icons.location_on, color: Colors.grey, size: 18.0),
           const SizedBox(width: 4.0),
-          _getAddress(info),
+          _getAddress(),
           const SizedBox(width: 15.0),
           const Icon(
             Icons.work,
@@ -149,7 +118,7 @@ class _JobDetailState extends State<JobDetail> {
   }
 
   // boss信息
-  Widget _getBossInfo(Map<String, dynamic> info) {
+  Widget _getBossInfo() {
     return Column(
       children: [
         const SizedBox(height: 20),
@@ -187,7 +156,7 @@ class _JobDetailState extends State<JobDetail> {
   }
 
   // 工作地址
-  Widget _getWorkAddress(Map<String, dynamic> info) {
+  Widget _getWorkAddress() {
     return const Column(
       children: [
         SizedBox(height: 20),
@@ -222,7 +191,7 @@ class _JobDetailState extends State<JobDetail> {
   }
 
   // 员工福利，welfareList
-  Widget _getWelfare(Map<String, dynamic> info) {
+  Widget _getWelfare() {
     List<Widget> list = [];
 
     for (var item in info["welfareList"]) {
@@ -260,7 +229,7 @@ class _JobDetailState extends State<JobDetail> {
   }
 
   // 职位详情描述
-  Widget _getJobDetail(Map<String, dynamic> info) {
+  Widget _getJobDetail() {
     List<Widget> skills = [];
     const content = '''职位类型：全职、兼职
 岗位职责：
@@ -317,7 +286,7 @@ class _JobDetailState extends State<JobDetail> {
   }
 
   // 公司信息
-  Widget _getCompanyInfo(Map<String, dynamic> info) {
+  Widget _getCompanyInfo() {
     List<String> list = [];
 
     if (info["brandStageName"] != null && info["brandStageName"]!.isNotEmpty) {
@@ -351,7 +320,7 @@ class _JobDetailState extends State<JobDetail> {
   }
 
   // boss安全提示
-  Widget _getSafeTips(Map<String, dynamic> info) {
+  Widget _getSafeTips() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -395,7 +364,7 @@ class _JobDetailState extends State<JobDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      appBar: _getAppBar(widget.info),
+      appBar: _getAppBar(),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
             border: Border(top: BorderSide(color: Colors.grey, width: 0.1))),
@@ -417,23 +386,23 @@ class _JobDetailState extends State<JobDetail> {
         ),
       ),
       body: ListView(
-        controller: _scrollController,
+        controller: jobDetailCtrl.scrollController,
         padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15.0),
         children: [
           // 职位基本信息
-          _getJobInfo(widget.info),
+          _getJobInfo(),
           // boss信息
-          _getBossInfo(widget.info),
+          _getBossInfo(),
           // 工作地址
-          _getWorkAddress(widget.info),
+          _getWorkAddress(),
           // 员工福利
-          _getWelfare(widget.info),
+          _getWelfare(),
           // 职位详情
-          _getJobDetail(widget.info),
+          _getJobDetail(),
           // 公司信息
-          _getCompanyInfo(widget.info),
+          _getCompanyInfo(),
           // boos安全提示
-          _getSafeTips(widget.info)
+          _getSafeTips()
         ],
       ),
     );
