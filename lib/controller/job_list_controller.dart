@@ -5,10 +5,8 @@ import '../../common/http_request.dart';
 // 生命周期钩子介绍
 // 1. onInit 当控制器初始化时调用。
 // 2. onReady 在控制器初始化完成并且所有依赖关系已经注入之后调用。
-// 3. onStart 当控制器开始活跃时调用，类似于StreamController中的add。
 // 4. onResume 当应用程序从后台恢复到前台时调用。
 // 5. onPause 当应用程序从前台切换到后台时调用。
-// 6. onStop() 描述: 当控制器停止活跃时调用，类似于StreamController中的close。
 // 7. onClose() 描述: 当控制器即将被销毁时调用。
 
 // 职位列表页控制器
