@@ -47,7 +47,7 @@ class JobListController extends GetxController {
 
   // 请求接口，获取数据
   Future<void> fetchData({bool isFresh = false}) async {
-    print('doing controller fetch data...');
+    print('doing job_list controller fetch data...');
     isLoading.value = true;
 
     // 模拟延迟2s

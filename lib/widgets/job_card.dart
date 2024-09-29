@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../config.dart';
-import 'job_detail.dart';
-import '../../widgets/label.dart';
+import '../config.dart';
+import '../views/job_pages/job_detail.dart';
+import 'label.dart';
 
 /// 职位信息展示，卡片样式
 class JobCard extends StatelessWidget {

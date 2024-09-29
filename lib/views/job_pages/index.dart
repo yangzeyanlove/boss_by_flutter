@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../config.dart';
-import 'job_card.dart';
+import '../../widgets/job_card.dart';
 import 'dart:math' as math;
 import 'package:get/get.dart';
 import '../../controller/job_list_controller.dart';

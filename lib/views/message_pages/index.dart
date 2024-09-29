@@ -75,7 +75,7 @@ class _MessageIndexPageState extends State<MessageIndexPage>
         controller: _tabController,
         children: [
           Chat(),
-          const Interaction(),
+          Interaction(),
         ],
       ),
     );
