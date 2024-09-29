@@ -48,7 +48,7 @@ class _MessageIndexPageState extends State<MessageIndexPage>
         ),
         title: TabBar(
           controller: _tabController,
-          // isScrollable: true,
+          splashFactory: NoSplash.splashFactory, // 去掉点击时的背景反馈动画
           tabAlignment: TabAlignment.center,
           indicator: const BoxDecoration(), // 创建一个空的指示器
           dividerHeight: 0,

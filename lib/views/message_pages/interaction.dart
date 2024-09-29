@@ -27,6 +27,7 @@ class Interaction extends StatelessWidget {
       tabs: tabsList,
       isScrollable: true, // 是否滚动
       dividerHeight: 0,
+      splashFactory: NoSplash.splashFactory, // 去掉点击时的背景反馈动画
       tabAlignment: TabAlignment.start, // 从左侧开始对齐
       labelPadding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
       padding: const EdgeInsets.all(0), // tab容器，左右填充

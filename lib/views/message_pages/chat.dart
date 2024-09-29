@@ -43,24 +43,25 @@ class Chat extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           TabBar(
-              isScrollable: true,
-              dividerHeight: 0,
-              tabAlignment: TabAlignment.center,
-              labelPadding: const EdgeInsets.fromLTRB(0, 0, 18, 0),
-              indicatorPadding: const EdgeInsets.symmetric(
-                  vertical: 4, horizontal: 0), // 选中下横向，与tabview之间的距离
-              tabs:
-                  dataCtrl.tabs.map((String name) => Tab(text: name)).toList(),
-              unselectedLabelStyle: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(
-                      color: const Color(0xff5f5f5f),
-                      fontWeight: FontWeight.w300),
-              labelStyle: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: Colors.black, fontWeight: FontWeight.w600)),
+            splashFactory: NoSplash.splashFactory, // 去掉点击时的背景反馈动画
+            isScrollable: true,
+            dividerHeight: 0,
+            tabAlignment: TabAlignment.center,
+            labelPadding: const EdgeInsets.fromLTRB(0, 0, 18, 0),
+            indicatorPadding: const EdgeInsets.symmetric(
+                vertical: 4, horizontal: 0), // 选中下横向，与tabview之间的距离
+            tabs: dataCtrl.tabs.map((String name) => Tab(text: name)).toList(),
+            unselectedLabelStyle: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(
+                    color: const Color(0xff5f5f5f),
+                    fontWeight: FontWeight.w300),
+            labelStyle: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(color: Colors.black, fontWeight: FontWeight.w600),
+          ),
           Container(
             padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 6),
             decoration: BoxDecoration(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../config.dart';
 import '../../widgets/label.dart';
 import '../../controller/job_detail_controller.dart';
+import '../map_page.dart';
 
 class JobDetail extends StatelessWidget {
   // 申明getx控制器，职位列表数据控制器
@@ -28,20 +29,6 @@ class JobDetail extends StatelessWidget {
         IconButton(icon: const Icon(Icons.ios_share), onPressed: () {}),
         IconButton(icon: const Icon(Icons.more_horiz), onPressed: () {})
       ],
-      // 底部边框
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(1.0),
-        child: Container(
-          decoration: const ShapeDecoration(
-            shape: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: Color.fromARGB(255, 198, 198, 198),
-                width: 0.1,
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 
@@ -286,7 +273,7 @@ class JobDetail extends StatelessWidget {
   }
 
   // 公司信息
-  Widget _getCompanyInfo() {
+  Widget _getCompanyInfo(BuildContext context) {
     List<String> list = [];
 
     if (info["brandStageName"] != null && info["brandStageName"]!.isNotEmpty) {
@@ -309,6 +296,20 @@ class JobDetail extends StatelessWidget {
           title: Text(info["brandName"], style: const TextStyle(fontSize: 16)),
           subtitle: Text(list.join('·'), style: const TextStyle(fontSize: 13)),
           trailing: const Icon(Icons.navigate_next),
+        ),
+        const SizedBox(height: 20),
+        InkWell(
+          onTap: () => {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const MapPage(),
+              ),
+            )
+          },
+          child: const Image(
+            image: AssetImage('assets/images/map.png'),
+          ),
         ),
         const SizedBox(height: 20),
         const Divider(
@@ -400,7 +401,7 @@ class JobDetail extends StatelessWidget {
           // 职位详情
           _getJobDetail(),
           // 公司信息
-          _getCompanyInfo(),
+          _getCompanyInfo(context),
           // boos安全提示
           _getSafeTips()
         ],

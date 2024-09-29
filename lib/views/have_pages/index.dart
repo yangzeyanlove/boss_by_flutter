@@ -125,6 +125,7 @@ class _TabViewContentState extends State<TabViewContent>
     return TabBar(
       tabs: tabsList,
       controller: _tabController,
+      splashFactory: NoSplash.splashFactory, // 去掉点击时的背景反馈动画
       isScrollable: true, // 是否滚动
       tabAlignment: TabAlignment.start, // 从左侧开始对齐
       labelStyle:
