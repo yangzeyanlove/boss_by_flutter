@@ -30,8 +30,19 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        release {
+            storeFile file('../../boss_by_flutter_yzy.jks')    // 这里是加载上一步生成的文件
+            storePassword '123456'
+            keyAlias 'boss-by-flutter-yzy'
+            keyPassword '123456'
+        }
+    }
     buildTypes {
         release {
+            signingConfig = signingConfigs.release
+        }
+        debug {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.debug
