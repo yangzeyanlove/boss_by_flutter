@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../config.dart';
+import '../demo_pages/index.dart';
 
 class MyIndexPage extends StatefulWidget {
   const MyIndexPage({super.key});
@@ -81,7 +82,12 @@ class _MyIndexPageState extends State<MyIndexPage> {
           IconButton(
             icon: const Icon(Icons.settings_outlined),
             onPressed: () {
-              // 处理搜索按钮点击事件
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const DemoPage(),
+                ),
+              );
             },
           )
         ],
