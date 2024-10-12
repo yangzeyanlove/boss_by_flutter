@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'views/home_page.dart';
 import 'config.dart';
@@ -15,6 +16,10 @@ class MyApp extends StatelessWidget {
   // 此小部件是应用程序的根
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.white, // 设置导航栏颜色
+    ));
+
     List<String> fontFamilyList =
         defaultTargetPlatform == TargetPlatform.android
             ? const [

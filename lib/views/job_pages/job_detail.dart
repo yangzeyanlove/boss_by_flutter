@@ -369,7 +369,7 @@ class JobDetail extends StatelessWidget {
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
             border: Border(top: BorderSide(color: Colors.grey, width: 0.1))),
-        padding: const EdgeInsets.fromLTRB(20, 5, 20, 18),
+        padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
         // height: 60,
         child: TextButton(
           onPressed: () {},
@@ -382,7 +382,7 @@ class JobDetail extends StatelessWidget {
           child: const Text(
             '立即沟通',
             style: TextStyle(
-                fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold),
+                fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
       ),
