@@ -109,7 +109,7 @@ class _MyIndexPageState extends State<MyIndexPage> {
           )),
       title: Opacity(
         opacity: 0,
-        child: Text('杨泽炎', style: TextStyle(fontSize: 24)),
+        child: Text('杨先生', style: TextStyle(fontSize: 24)),
       ),
       subtitle: Row(
         children: [
@@ -156,7 +156,7 @@ class _MyIndexPageState extends State<MyIndexPage> {
                     bottom: offsetTop >= 0
                         ? 20 - (offsetTop / kToolbarHeight) * 20
                         : 20),
-                child: Text('杨泽炎',
+                child: Text('杨先生',
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: offsetTop >= 0
